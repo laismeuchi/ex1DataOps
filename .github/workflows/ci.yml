@@ -1,0 +1,80 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - 'feature/esteira'
+      - 'main'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Validate job placeholder
+        run: echo "Validate job is configured"
+
+  deploy:
+    needs: validate
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Deploy artifact
+        run: echo "Deploy step triggered on main branch"
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Lint
+        run: |
+          python -m flake8 app tests
+
+      - name: Type check
+        run: |
+          python -m mypy app tests
+
+      - name: Security scan
+        run: |
+          python -m bandit -r app
+
+      - name: Complexity scan
+        run: |
+          python -m radon cc -s app
+
+      - name: Run tests
+        run: |
+          pytest -q
+
+      - name: Generate summary artifact
+        run: |
+          python app/pipeline.py
+
+      - name: Upload summary artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: summary-csv
+          path: output/summary.csv
+
