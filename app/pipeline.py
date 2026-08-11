@@ -31,7 +31,7 @@ def run_pipeline(input_file: str, output_file: str) -> None:
 def create_annual_report(input_file: str, output_file: str) -> None:
     df = pd.read_csv(input_file)
 
-    required_columns = {"order_id", "customer", "amount"}
+    required_columns = {"order_id", "customer", "amount", "date"}
     missing_columns = required_columns - set(df.columns)
     if missing_columns:
         raise ValueError(f"Colunas obrigatórias ausentes: {missing_columns}")
