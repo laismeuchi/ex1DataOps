@@ -56,3 +56,13 @@ jobs:
         run: |
           pytest -q
 
+      - name: Generate summary artifact
+        run: |
+          python app/pipeline.py
+
+      - name: Upload summary artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: summary-csv
+          path: output/summary.csv
+
