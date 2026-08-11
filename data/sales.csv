@@ -1,4 +1,4 @@
-order_id,customer,amount, date
+order_id,customer,amount,date
 1,Ana,100.0,2026-01-02
 2,Bruno,250.0,2026-01-03
 3,Carlos,150.0,2026-01-02
