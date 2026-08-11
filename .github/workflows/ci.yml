@@ -40,6 +40,18 @@ jobs:
         run: |
           python -m flake8 app tests
 
+      - name: Type check
+        run: |
+          python -m mypy app tests
+
+      - name: Security scan
+        run: |
+          python -m bandit -r app
+
+      - name: Complexity scan
+        run: |
+          python -m radon cc -s app
+
       - name: Run tests
         run: |
           pytest -q
