@@ -6,6 +6,12 @@ on:
       - 'feature/esteira'
 
 jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate job placeholder
+        run: echo "Validate job is configured"
+
   test:
     runs-on: ubuntu-latest
     steps:
