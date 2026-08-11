@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'feature/esteira'
+      - 'main'
 
 jobs:
   validate:
@@ -19,6 +20,17 @@ jobs:
 
       - name: Validate job placeholder
         run: echo "Validate job is configured"
+
+  deploy:
+    needs: validate
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Deploy artifact
+        run: echo "Deploy step triggered on main branch"
 
   test:
     runs-on: ubuntu-latest
